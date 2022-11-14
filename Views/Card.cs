@@ -18,7 +18,9 @@ namespace CatchingRegistry.Views
 {
     public partial class Card : Form
     {
-        string path;
+
+        Dictionary<string, string> attachments = new Dictionary<string, string>();
+
         public Card()
         {
             InitializeComponent();
@@ -53,28 +55,20 @@ namespace CatchingRegistry.Views
         private void button5_Click(object sender, EventArgs e)
         {
             var picture = new PictureBox();
-            picture.Image = Image.FromFile(@"./images/ios.png");
+            picture.Image = Image.FromFile(@$"{Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName}\images\ios.png");
             picture.Size = new Size(150, 150);
 
             var groupBox = new GroupBox();
             groupBox.Controls.Add(picture);
             groupBox.Size = new Size(175, 175);
-            groupBox.MouseClick += new MouseEventHandler((object obj, MouseEventArgs e) =>
+            groupBox.Controls[0].MouseClick += new MouseEventHandler((object obj, MouseEventArgs e) =>
             {
-                MessageBox.Show("123");
+                MessageBox.Show(groupBox.Controls[0].Name);
             });
-            flowLayoutPanel1.Controls.Add(groupBox);
-        }
 
-        private void buttonUpload_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
+            groupBox.Controls[0].Name = $"test{flowLayoutAttachmentsPanel.Controls.Count}";
 
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                path = openFileDialog.FileName;
-                File.Copy(path, Path.Combine(@"D:\\Ed\5 семестр\ПИС2\CatchingRegistry\CatchingRegistry\CatchingRegistry\images", Path.GetFileName(path)), true);
-            }
+            flowLayoutAttachmentsPanel.Controls.Add(groupBox);
         }
 
         private void button1_Click(object sender, EventArgs e)
