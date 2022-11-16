@@ -25,7 +25,9 @@ namespace CatchingRegistry.Views
 
         private void button1_Click(object sender, EventArgs e)
         {
-            loginController.Authorize(textBoxName.Text, textBoxPassword.Text);
+            //loginController.Authorize(textBoxName.Text, textBoxPassword.Text);
+            loginController.Authorize("admin", "admin");
+
         }
     }
 }

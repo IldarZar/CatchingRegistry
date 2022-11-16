@@ -1,22 +1,45 @@
+using CatchingRegistry.Controllers;
 using CatchingRegistry.Models;
+using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace CatchingRegistry.Views
 {
     public partial class Registry : Form
     {
         readonly private Employee employee;
-
-        // Important to detect which filter form is opened and show last typed data
+        readonly private RegistryController registryController;
+        readonly private Context context;
         private Dictionary<string, string> dictionaryFilter = new Dictionary<string, string>();
+
         public Registry(Employee employee)
         {
             InitializeComponent();
 
             this.employee = employee;
-            labelName.Text = employee.Name;
+
             labelRole.Text = employee.Role.Name;
             buttonAddRecord.Visible = employee.Role.CanUpdate;
-        }
+
+
+            registryController = new RegistryController(this);
+            dataGridView1.DataSource = new DataSet();
+
+
+
+
+            context = new Context();
+            SqlDataAdapter adapter = new SqlDataAdapter();
+            var query = context.CatchingActs.Select(catchingAct => new 
+            { 
+                Id = catchingAct.Id,
+                AnimalId = catchingAct.Animal.Id,
+                DateTime = catchingAct.DateTime,
+                Purpose = catchingAct.CatchingPurpose
+            });
+
+            dataGridView1.DataSource = query.ToList();
+        }   
 
         private void dataGridView1_ColumnHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
@@ -29,12 +52,15 @@ namespace CatchingRegistry.Views
 
         private void buttonOpenCard_Click(object sender, EventArgs e)
         {
-            var card = new Card();
+            var rowIndex = dataGridView1.SelectedCells[0].RowIndex;
+            int catchingActId = (int) dataGridView1.Rows[rowIndex].Cells["Id"].Value;
+            var card = new Card(catchingActId);
             card.Show();
         }
 
         private void buttonAddRecord_Click(object sender, EventArgs e)
         {
+            //registryController.AddCatchingAct();
             var card = new Card();
             card.Show();
         }

@@ -12,25 +12,70 @@ using System.Windows.Forms;
 using Xceed.Words.NET;
 using Word = Microsoft.Office.Interop.Word;
 using System.Reflection;
-
+using CatchingRegistry.Models;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 
 namespace CatchingRegistry.Views
 {
     public partial class Card : Form
     {
-
+        private readonly Context context;
         Dictionary<string, string> attachments = new Dictionary<string, string>();
+
 
         public Card()
         {
             InitializeComponent();
         }
 
+        public Card(int id)
+        {
+            InitializeComponent();
+
+
+            Console.WriteLine(id.ToString());
+            textBoxCatchingActNumber.Text = $"{id}";
+
+
+            context = new Context();
+            SqlDataAdapter adapter = new SqlDataAdapter();
+            var query = context.Animals.Select(animal => new
+            {
+                Id = animal.Id,
+                Category = animal.Category,
+                Gender = animal.Gender,
+                Size = animal.Size,
+                Features = animal.Features
+            });
+
+            dataGridView1.DataSource = query.ToList();
+
+
+            var organisation = context
+                .Organisations
+                .Include(organisation => organisation.Employee)
+                .Include(organisation => organisation.Employee.Role)
+                .Where(organisation => organisation.Employee.Id == Employee.currentId)
+                .First();
+
+            var municipalContract = context
+                .MunicipalContracts
+                .Where(contract => 
+                    (contract.Organisation.Id == organisation.Id) && (contract.CatchingAct.Id == id)
+                )
+                .First();
+
+            comboBoxMunicipalContractNumber.DataSource = context.MunicipalContracts.Where(contract => contract.Organisation.Id == organisation.Id).Select(contract => contract.Id).ToList();
+            textBoxMunicipalName.Text = municipalContract.MunicipalName;
+            textBoxLocalGovernment.Text = municipalContract.LocalGovernment;
+            dateTimePickerMunicipalContractDate.Text = municipalContract.ContractDate.ToString();
+            textBoxOrganisation.Text = municipalContract.Organisation.Name;
+            textBoxLocality.Text = municipalContract.Locality;
+        }
+
         private void ChangeAnimalCountLabel()
         {
-            var catsCount = textBoxCatsCount.Text == "" ? "0" : textBoxCatsCount.Text;
-            var dogsCount = textBoxDogsCount.Text == "" ? "0" : textBoxDogsCount.Text;
-            labelAnimalsCount.Text = $"{int.Parse(catsCount) + int.Parse(dogsCount)}";
         }
 
         private void textBoxCatsCount_TextChanged(object sender, EventArgs e)
@@ -113,6 +158,11 @@ namespace CatchingRegistry.Views
 
 
        
+        }
+
+        private void buttonAdd_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

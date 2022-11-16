@@ -9,8 +9,7 @@ namespace CatchingRegistry.Models
     public class CatchingAct
     {
         public int Id { get; set; }
-        public int CountDogs { get; set; }
-        public int CountCats { get; set; }
+        public Animal Animal { get; set; }
         public DateTime DateTime { get; set; }
         public string CatchingPurpose { get; set; }
 

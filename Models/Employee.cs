@@ -16,6 +16,9 @@ namespace CatchingRegistry.Models
         public string Password { get; set; }
         public Role Role { get; set; }
 
+        public static int currentId { get; private set; }
+
+        public Employee() { }
 
         public Employee(string Name, string Password)
         {
@@ -34,13 +37,10 @@ namespace CatchingRegistry.Models
                     && employee.Password == Password
                 );
 
-            if (employees.Any()) 
-                FillFields();
-
             return employees.Any();
         }
 
-        private void FillFields()
+        public void FillFields()
         {
             var db = new Context();
 
@@ -51,6 +51,8 @@ namespace CatchingRegistry.Models
                   employee.Name == Name
                   && employee.Password == Password
                 ).First();
+
+            currentId = employees.Id;
 
             Id = employees.Id;
             Role = new Role { Id = employees.Role.Id, Name = employees.Role.Name, CanUpdate = employees.Role.CanUpdate };

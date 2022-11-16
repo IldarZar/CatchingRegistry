@@ -29,14 +29,6 @@
         private void InitializeComponent()
         {
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.ActTrappingNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Municipality = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Settlement = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TrappedDogsNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TrappedCatsNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TrappedAnimalsNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TrappingDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TrappingPurpose = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.buttonAddRecord = new System.Windows.Forms.Button();
             this.buttonRemoveRecord = new System.Windows.Forms.Button();
@@ -52,15 +44,6 @@
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ActTrappingNumber,
-            this.Municipality,
-            this.Settlement,
-            this.TrappedDogsNumber,
-            this.TrappedCatsNumber,
-            this.TrappedAnimalsNumber,
-            this.TrappingDate,
-            this.TrappingPurpose});
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(3, 23);
             this.dataGridView1.Name = "dataGridView1";
@@ -70,62 +53,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(1192, 341);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.ColumnHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_ColumnHeaderMouseDoubleClick);
-            // 
-            // ActTrappingNumber
-            // 
-            this.ActTrappingNumber.HeaderText = "Номер акта отлова";
-            this.ActTrappingNumber.MinimumWidth = 6;
-            this.ActTrappingNumber.Name = "ActTrappingNumber";
-            this.ActTrappingNumber.Width = 125;
-            // 
-            // Municipality
-            // 
-            this.Municipality.HeaderText = "Муниципальное образование";
-            this.Municipality.MinimumWidth = 6;
-            this.Municipality.Name = "Municipality";
-            this.Municipality.Width = 125;
-            // 
-            // Settlement
-            // 
-            this.Settlement.HeaderText = "Населенный пункт";
-            this.Settlement.MinimumWidth = 6;
-            this.Settlement.Name = "Settlement";
-            this.Settlement.Width = 125;
-            // 
-            // TrappedDogsNumber
-            // 
-            this.TrappedDogsNumber.HeaderText = "Количество отловленных собак";
-            this.TrappedDogsNumber.MinimumWidth = 6;
-            this.TrappedDogsNumber.Name = "TrappedDogsNumber";
-            this.TrappedDogsNumber.Width = 125;
-            // 
-            // TrappedCatsNumber
-            // 
-            this.TrappedCatsNumber.HeaderText = "Количество отловленных кошек";
-            this.TrappedCatsNumber.MinimumWidth = 6;
-            this.TrappedCatsNumber.Name = "TrappedCatsNumber";
-            this.TrappedCatsNumber.Width = 125;
-            // 
-            // TrappedAnimalsNumber
-            // 
-            this.TrappedAnimalsNumber.HeaderText = "Количество отловленных животных";
-            this.TrappedAnimalsNumber.MinimumWidth = 6;
-            this.TrappedAnimalsNumber.Name = "TrappedAnimalsNumber";
-            this.TrappedAnimalsNumber.Width = 125;
-            // 
-            // TrappingDate
-            // 
-            this.TrappingDate.HeaderText = "Дата отлова";
-            this.TrappingDate.MinimumWidth = 6;
-            this.TrappingDate.Name = "TrappingDate";
-            this.TrappingDate.Width = 125;
-            // 
-            // TrappingPurpose
-            // 
-            this.TrappingPurpose.HeaderText = "Цель отлова";
-            this.TrappingPurpose.MinimumWidth = 6;
-            this.TrappingPurpose.Name = "TrappingPurpose";
-            this.TrappingPurpose.Width = 125;
             // 
             // groupBox1
             // 
@@ -189,7 +116,7 @@
             // labelRole
             // 
             this.labelRole.AutoSize = true;
-            this.labelRole.Location = new System.Drawing.Point(115, 549);
+            this.labelRole.Location = new System.Drawing.Point(84, 549);
             this.labelRole.Name = "labelRole";
             this.labelRole.Size = new System.Drawing.Size(35, 20);
             this.labelRole.TabIndex = 8;
@@ -225,14 +152,6 @@
         private Button buttonRemoveRecord;
         private Button buttonOpenCard;
         private Button button1;
-        private DataGridViewTextBoxColumn ActTrappingNumber;
-        private DataGridViewTextBoxColumn Municipality;
-        private DataGridViewTextBoxColumn Settlement;
-        private DataGridViewTextBoxColumn TrappedDogsNumber;
-        private DataGridViewTextBoxColumn TrappedCatsNumber;
-        private DataGridViewTextBoxColumn TrappedAnimalsNumber;
-        private DataGridViewTextBoxColumn TrappingDate;
-        private DataGridViewTextBoxColumn TrappingPurpose;
         private Label labelName;
         private Label labelRole;
     }

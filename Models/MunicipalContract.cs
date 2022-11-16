@@ -11,6 +11,8 @@ namespace CatchingRegistry.Models
         public int Id { get; set; }
         public DateTime ContractDate { get; set; }
         public string MunicipalName { get; set; }
+        public string LocalGovernment { get; set; }
+
         public Organisation Organisation { get; set; }
         public string Locality { get; set; }
         public CatchingAct CatchingAct { get; set; }

@@ -9,11 +9,11 @@ namespace CatchingRegistry.Models
 {
     public class Animal
     {
-        [Key]
         public string Id { get; set; }
         public string Category { get; set; }
         public string Gender { get; set; }
         public string Size { get; set; }
         public string Features { get; set; }
+        public string MicrochipNumber { get; set; }
     }
 }
