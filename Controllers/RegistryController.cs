@@ -60,7 +60,28 @@ namespace CatchingRegistry.Controllers
 
         public void UpdateRegistryTable(DataGridView dataGridViewRegistry, Dictionary<string, string> dictionaryFilter)
         {
-            StringBuilder queryBuilder = new StringBuilder("SELECT Id, DateTime, CatchingPurpose FROM CatchingActs");
+            StringBuilder queryBuilder = new StringBuilder("SELECT ");
+            List<string> filterConditions = new List<string>();
+
+
+
+
+            foreach (KeyValuePair<string, string> filter in dictionaryFilter)
+            {
+                queryBuilder.Append($"{filter.Key}");
+
+                if (dictionaryFilter.Last().Key != filter.Key)
+                    queryBuilder.Append(", ");
+                else
+                    queryBuilder.Append(" ");
+            }
+
+
+
+            queryBuilder.Append("FROM CatchingActs");
+
+
+
 
             // TODO: Для двух и более параметров добавить AND
             foreach (KeyValuePair<string, string> filter in dictionaryFilter)
@@ -69,8 +90,19 @@ namespace CatchingRegistry.Controllers
                 {
                     if (!queryBuilder.ToString().Contains(" WHERE "))
                         queryBuilder.Append(" WHERE ");
-                    queryBuilder.Append($" {filter.Key} LIKE '%{filter.Value}%'");
+
+                    filterConditions.Add($" {filter.Key} LIKE '%{filter.Value}%'");
                 }
+            }
+
+            if (filterConditions.Count > 1)
+            {
+                var conditions = string.Join(" AND ", filterConditions);
+                queryBuilder.Append(conditions);
+            }
+            else if (filterConditions.Count == 1)
+            {
+                queryBuilder.Append(filterConditions[0]);
             }
 
             var catchingActs = context.CatchingActs.FromSqlRaw(queryBuilder.ToString());
