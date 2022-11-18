@@ -9,22 +9,12 @@ namespace CatchingRegistry.Controllers
 {
     public class FilterController
     {
-        Form formInstance;
         DataGridView dataGridViewRegistry;
-        int columnIndex;
-        Dictionary<string, string> dictionaryFilter;
 
-        public FilterController(DataGridView dataGridViewRegistry, int columnIndex, Dictionary<string, string> dictionaryFilter)
+        public FilterController(DataGridView dataGridViewRegistry)
         {
-            this.formInstance = formInstance;
             this.dataGridViewRegistry = dataGridViewRegistry;
         }
 
-        public void SetFilter(Dictionary<string, string> dictionaryFilter, string key, string value)
-        {
-            dictionaryFilter[key] = value;
-
-            formInstance.Close();
-        }
     }
 }

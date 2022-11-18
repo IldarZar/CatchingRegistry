@@ -15,21 +15,7 @@ namespace CatchingRegistry.Views
 
 
         private int selectedRowIndex;
-        private Dictionary<string, string> dictionaryFilter = new Dictionary<string, string>
-        {
-            {
-                "Id",
-                ""
-            },
-            {
-                "DateTime",
-                ""
-            },
-            {
-                "CatchingPurpose",
-                ""
-            }
-        };
+        private Dictionary<string, string> dictionaryFilter;
 
         public Registry(Employee employee)
         {
@@ -56,6 +42,9 @@ namespace CatchingRegistry.Views
             dataGridViewRegistry.Columns["Animal"].Visible = false;
 
             registryController.UpdateRegistryTable(dataGridViewRegistry);
+
+
+            FillFilterDictionary();
         }
 
         private void dataGridView1_ColumnHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -90,7 +79,7 @@ namespace CatchingRegistry.Views
         private void button1_Click(object sender, EventArgs e)
         {
             var button = new Button();
-            button.Location = new Point(373, 500);
+            button.Location = new Point(473, 500);
             button.Text = "123";
             Controls.Add(button);
         }
@@ -105,15 +94,26 @@ namespace CatchingRegistry.Views
             // TODO: Пофиксить этот ужас
             if (e.RowIndex == -1)
             {
-                var filterForm = new Filter(registryController, 
-                    dataGridViewRegistry, 
-                    e.ColumnIndex, 
-                    dataGridViewRegistry.Columns[e.ColumnIndex].Name, 
-                    dictionaryFilter);
-                filterForm.Show();
+                //var filterForm = new Filter(registryController, 
+                //    dataGridViewRegistry, 
+                //    e.ColumnIndex, 
+                //    dataGridViewRegistry.Columns[e.ColumnIndex].Name, 
+                //    dictionaryFilter);
 
-                //registryController.UpdateRegistryTable(dataGridViewRegistry, dictionaryFilter);
+
+
+                registryController.ShowFilter(dictionaryFilter, dataGridViewRegistry, e);
             }
+        }
+
+        private void FillFilterDictionary()
+        {
+            dictionaryFilter = new Dictionary<string, string>();
+
+            foreach (DataGridViewColumn column in dataGridViewRegistry.Columns)
+                if (column.Visible)
+                    dictionaryFilter.Add(column.Name, "");
+            
         }
     }
 }

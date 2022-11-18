@@ -1,4 +1,5 @@
 ﻿using CatchingRegistry.Models;
+using CatchingRegistry.Views;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -112,6 +113,18 @@ namespace CatchingRegistry.Controllers
 
             foreach (var catchingAct in catchingActs)
                 dataGridViewRegistry.Rows.Add(catchingAct.Id, catchingAct.DateTime, catchingAct.CatchingPurpose);
+        }
+
+        public void ShowFilter(Dictionary<string, string> dictionaryFilter, DataGridView dataGridViewRegistry, DataGridViewCellEventArgs e)
+        {
+            string key = dataGridViewRegistry.Columns[e.ColumnIndex].Name;
+
+            var filterForm = new Filter(
+                key,
+                dictionaryFilter, 
+                () => UpdateRegistryTable(dataGridViewRegistry, dictionaryFilter)
+            );
+            filterForm.Show();
         }
     }
 }

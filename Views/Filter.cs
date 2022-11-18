@@ -13,31 +13,24 @@ namespace CatchingRegistry.Views
 {
     public partial class Filter : Form
     {
-        RegistryController registryController;
-        DataGridView dataGridViewRegistry;
-        int columnIndex;
-        string key;
-        Dictionary<string, string> dictionaryFilter;
+        private Action action;
+        private Dictionary<string, string> dictionaryFilter;
+        private string key;
 
-        public Filter(RegistryController registryController, DataGridView dataGridViewRegistry, int columnIndex, string key, Dictionary<string, string> dictionaryFilter)
+        public Filter(string key, Dictionary<string, string> dictionaryFilter, Action action)
         {
             InitializeComponent();
 
-            this.key = key;
-            this.registryController = registryController;
-            this.dataGridViewRegistry = dataGridViewRegistry;
-            this.columnIndex = columnIndex;
-            this.dictionaryFilter = dictionaryFilter;
-
             textBoxFilter.Text = dictionaryFilter[key];
+            this.action = action;
+            this.dictionaryFilter = dictionaryFilter;
+            this.key = key;
         }
 
         private void buttonSearchByWord_Click(object sender, EventArgs e)
         {
             dictionaryFilter[key] = textBoxFilter.Text;
-
-            registryController.UpdateRegistryTable(dataGridViewRegistry, dictionaryFilter);
-
+            action();
             Close();
         }
     }
