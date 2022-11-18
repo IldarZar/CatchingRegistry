@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CatchingRegistry.Controllers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,14 +13,32 @@ namespace CatchingRegistry.Views
 {
     public partial class Filter : Form
     {
-        public Filter()
+        RegistryController registryController;
+        DataGridView dataGridViewRegistry;
+        int columnIndex;
+        string key;
+        Dictionary<string, string> dictionaryFilter;
+
+        public Filter(RegistryController registryController, DataGridView dataGridViewRegistry, int columnIndex, string key, Dictionary<string, string> dictionaryFilter)
         {
             InitializeComponent();
+
+            this.key = key;
+            this.registryController = registryController;
+            this.dataGridViewRegistry = dataGridViewRegistry;
+            this.columnIndex = columnIndex;
+            this.dictionaryFilter = dictionaryFilter;
+
+            textBoxFilter.Text = dictionaryFilter[key];
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonSearchByWord_Click(object sender, EventArgs e)
         {
+            dictionaryFilter[key] = textBoxFilter.Text;
 
+            registryController.UpdateRegistryTable(dataGridViewRegistry, dictionaryFilter);
+
+            Close();
         }
     }
 }

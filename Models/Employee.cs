@@ -37,7 +37,13 @@ namespace CatchingRegistry.Models
                     && employee.Password == Password
                 );
 
-            return employees.Any();
+            if (employees.Any())
+            {
+                FillFields();
+                return true;
+            }
+
+            return false;
         }
 
         public void FillFields()

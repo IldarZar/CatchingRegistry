@@ -1,6 +1,5 @@
 using CatchingRegistry.Controllers;
 using CatchingRegistry.Models;
-using Microsoft.Data.SqlClient;
 using System.Data;
 
 namespace CatchingRegistry.Views
@@ -8,52 +7,65 @@ namespace CatchingRegistry.Views
     public partial class Registry : Form
     {
         readonly private Employee employee;
-        readonly private RegistryController registryController;
         readonly private Context context;
-        private Dictionary<string, string> dictionaryFilter = new Dictionary<string, string>();
+
+        readonly private RegistryController registryController;
+        readonly private CardController cardController;
+        readonly private FilterController filterController;
+
+
+        private int selectedRowIndex;
+        private Dictionary<string, string> dictionaryFilter = new Dictionary<string, string>
+        {
+            {
+                "Id",
+                ""
+            },
+            {
+                "DateTime",
+                ""
+            },
+            {
+                "CatchingPurpose",
+                ""
+            }
+        };
 
         public Registry(Employee employee)
         {
             InitializeComponent();
-
+            dataGridViewRegistry.AutoGenerateColumns = false;
             this.employee = employee;
 
+            labelName.Text = employee.Name;
             labelRole.Text = employee.Role.Name;
             buttonAddRecord.Visible = employee.Role.CanUpdate;
 
-
             registryController = new RegistryController(this);
-            dataGridView1.DataSource = new DataSet();
-
-
-
+            cardController = new CardController(this);
 
             context = new Context();
-            SqlDataAdapter adapter = new SqlDataAdapter();
-            var query = context.CatchingActs.Select(catchingAct => new 
-            { 
-                Id = catchingAct.Id,
-                AnimalId = catchingAct.Animal.Id,
-                DateTime = catchingAct.DateTime,
-                Purpose = catchingAct.CatchingPurpose
-            });
 
-            dataGridView1.DataSource = query.ToList();
-        }   
+
+
+
+            dataGridViewRegistry.Columns.Add("Id", "Номер");
+            dataGridViewRegistry.Columns.Add("DateTime", "Дата");
+            dataGridViewRegistry.Columns.Add("CatchingPurpose", "Цель отлова");
+            dataGridViewRegistry.Columns.Add("Animal", "Животные");
+            dataGridViewRegistry.Columns["Animal"].Visible = false;
+
+            registryController.UpdateRegistryTable(dataGridViewRegistry);
+        }
 
         private void dataGridView1_ColumnHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            var filterForm = new Filter();
 
-            var data = dataGridView1.Columns[0].Name;
-
-            filterForm.Show();
         }
 
         private void buttonOpenCard_Click(object sender, EventArgs e)
         {
-            var rowIndex = dataGridView1.SelectedCells[0].RowIndex;
-            int catchingActId = (int) dataGridView1.Rows[rowIndex].Cells["Id"].Value;
+            int catchingActId = (int) dataGridViewRegistry.Rows[selectedRowIndex].Cells["Id"].Value;
             var card = new Card(catchingActId);
             card.Show();
         }
@@ -72,7 +84,7 @@ namespace CatchingRegistry.Views
 
         private void buttonRemoveRecord_Click(object sender, EventArgs e)
         {
-
+            //registryController.RemoveCatchingAct();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -81,6 +93,27 @@ namespace CatchingRegistry.Views
             button.Location = new Point(373, 500);
             button.Text = "123";
             Controls.Add(button);
+        }
+
+        private void dataGridViewRegistry_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            selectedRowIndex = e.RowIndex;
+        }
+
+        private void dataGridViewRegistry_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // TODO: Пофиксить этот ужас
+            if (e.RowIndex == -1)
+            {
+                var filterForm = new Filter(registryController, 
+                    dataGridViewRegistry, 
+                    e.ColumnIndex, 
+                    dataGridViewRegistry.Columns[e.ColumnIndex].Name, 
+                    dictionaryFilter);
+                filterForm.Show();
+
+                //registryController.UpdateRegistryTable(dataGridViewRegistry, dictionaryFilter);
+            }
         }
     }
 }

@@ -25,14 +25,13 @@ namespace CatchingRegistry.Controllers
             var employee = new Employee(name, password);
             if (employee.IsUserExists())
             {
-                employee.FillFields();
                 var registry = new Registry(employee);
                 registry.Show();
                 formInstance.Hide();
             }
             else
             {
-                MessageBox.Show("Something went wrong");
+                MessageBox.Show("Пользователь не найден");
             }
         }
     }

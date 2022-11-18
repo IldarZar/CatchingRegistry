@@ -13,33 +13,34 @@ using Xceed.Words.NET;
 using Word = Microsoft.Office.Interop.Word;
 using System.Reflection;
 using CatchingRegistry.Models;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using CatchingRegistry.Controllers;
 
 namespace CatchingRegistry.Views
 {
     public partial class Card : Form
     {
-        private readonly Context context;
-        Dictionary<string, string> attachments = new Dictionary<string, string>();
+        private readonly Context context = new Context();
+        private readonly CardController cardController;
+        private readonly RegistryController registryController;
 
+        Dictionary<string, string> attachments = new Dictionary<string, string>();
 
         public Card()
         {
             InitializeComponent();
+
+            this.cardController = new CardController(this);
+            this.registryController = new RegistryController(this);
         }
 
         public Card(int id)
         {
             InitializeComponent();
 
-
-            Console.WriteLine(id.ToString());
             textBoxCatchingActNumber.Text = $"{id}";
 
 
-            context = new Context();
-            SqlDataAdapter adapter = new SqlDataAdapter();
             var query = context.Animals.Select(animal => new
             {
                 Id = animal.Id,
@@ -49,13 +50,11 @@ namespace CatchingRegistry.Views
                 Features = animal.Features
             });
 
-            dataGridView1.DataSource = query.ToList();
+            dataGridViewAnimals.DataSource = query.ToList();
 
 
             var organisation = context
                 .Organisations
-                .Include(organisation => organisation.Employee)
-                .Include(organisation => organisation.Employee.Role)
                 .Where(organisation => organisation.Employee.Id == Employee.currentId)
                 .First();
 
@@ -72,6 +71,8 @@ namespace CatchingRegistry.Views
             dateTimePickerMunicipalContractDate.Text = municipalContract.ContractDate.ToString();
             textBoxOrganisation.Text = municipalContract.Organisation.Name;
             textBoxLocality.Text = municipalContract.Locality;
+
+
         }
 
         private void ChangeAnimalCountLabel()
@@ -118,6 +119,9 @@ namespace CatchingRegistry.Views
 
         private void button1_Click(object sender, EventArgs e)
         {
+
+            // Выделить отдельный метод для экспорта 
+
             string path = @$"{Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName}\template.docx";
 
             Word.Application wordApp = new Word.Application();
@@ -127,7 +131,7 @@ namespace CatchingRegistry.Views
             ReplaceWordStub(document, new Dictionary<string, string>
             {
                 {
-                    "{actNumber}", 
+                    "{actNumber}",
                     "12"
                 },
                 {
@@ -155,14 +159,57 @@ namespace CatchingRegistry.Views
                 range.Find.ClearFormatting();
                 range.Find.Execute(FindText: record.Key, ReplaceWith: record.Value);
             }
-
-
-       
         }
 
-        private void buttonAdd_Click(object sender, EventArgs e)
+        private void buttonSave_Click(object sender, EventArgs e)
         {
+            var animals = new List<Animal>();
+            foreach (DataGridViewRow row in dataGridViewAnimals.Rows)
+            {
+                animals.Add(new Animal
+                {
+                    Id = (string)row.Cells["ColumnId"].Value,
+                    Category = (string)row.Cells["ColumnCategory"].Value,
+                    Gender = (string)row.Cells["ColumnGender"].Value,
+                    Size = (string)row.Cells["ColumnSize"].Value,
+                    Features = (string)row.Cells["ColumnFeatures"].Value
+                });
+            }
 
+            context.CatchingActs.Add(new CatchingAct
+            {
+                DateTime = DateTime.Parse(dateTimePickerCatchingDate.Text),
+                Animal = animals,
+                CatchingPurpose = richTextBoxCatchingPurpose.Text
+            });
+
+            context.SaveChanges();
+
+            Close();
+        }
+
+        private void buttonAddAnimal_Click(object sender, EventArgs e)
+        {
+            dataGridViewAnimals.Rows.Add(
+                textBoxCheapNumber.Text,
+                comboBoxCategory.Text,
+                comboBoxGender.Text,
+                textBoxSize.Text,
+                textBoxFeatures.Text
+            );
+        }
+
+        private void buttonSaveChanges_Click(object sender, EventArgs e)
+        {
+            int catchingActNumber = int.Parse(textBoxCatchingActNumber.Text);
+            CatchingAct newCatchingAct = new CatchingAct
+            {
+                CatchingPurpose = richTextBoxCatchingPurpose.Text,
+                // ...
+            };
+
+
+            registryController.UpdateCatchingAct(catchingActNumber, newCatchingAct);
         }
     }
 }

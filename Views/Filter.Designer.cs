@@ -28,45 +28,45 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBoxFilter = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.buttonSearchByWord = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // textBox1
+            // textBoxFilter
             // 
-            this.textBox1.Location = new System.Drawing.Point(48, 73);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(125, 27);
-            this.textBox1.TabIndex = 0;
+            this.textBoxFilter.Location = new System.Drawing.Point(48, 73);
+            this.textBoxFilter.Name = "textBoxFilter";
+            this.textBoxFilter.Size = new System.Drawing.Size(125, 27);
+            this.textBoxFilter.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(78, 9);
+            this.label1.Location = new System.Drawing.Point(40, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(60, 20);
+            this.label1.Size = new System.Drawing.Size(117, 20);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Фильтр";
+            this.label1.Text = "Поиск по слову";
             // 
-            // button1
+            // buttonSearchByWord
             // 
-            this.button1.Location = new System.Drawing.Point(61, 106);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(97, 34);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Ок";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.buttonSearchByWord.Location = new System.Drawing.Point(61, 106);
+            this.buttonSearchByWord.Name = "buttonSearchByWord";
+            this.buttonSearchByWord.Size = new System.Drawing.Size(97, 34);
+            this.buttonSearchByWord.TabIndex = 2;
+            this.buttonSearchByWord.Text = "Ок";
+            this.buttonSearchByWord.UseVisualStyleBackColor = true;
+            this.buttonSearchByWord.Click += new System.EventHandler(this.buttonSearchByWord_Click);
             // 
             // Filter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(229, 171);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.buttonSearchByWord);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textBoxFilter);
             this.Name = "Filter";
             this.Text = "Filter";
             this.ResumeLayout(false);
@@ -76,8 +76,8 @@
 
         #endregion
 
-        private TextBox textBox1;
+        private TextBox textBoxFilter;
         private Label label1;
-        private Button button1;
+        private Button buttonSearchByWord;
     }
 }

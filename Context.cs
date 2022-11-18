@@ -15,7 +15,6 @@ namespace CatchingRegistry.Models
         public DbSet<Organisation> Organisations { get; set; }
         public DbSet<MunicipalContract> MunicipalContracts { get; set; }
         public DbSet<Animal> Animals { get; set; }
-
         public Context()
         {
             Database.EnsureCreated();

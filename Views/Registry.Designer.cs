@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridViewRegistry = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.buttonAddRecord = new System.Windows.Forms.Button();
             this.buttonRemoveRecord = new System.Windows.Forms.Button();
@@ -36,27 +36,31 @@
             this.button1 = new System.Windows.Forms.Button();
             this.labelName = new System.Windows.Forms.Label();
             this.labelRole = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRegistry)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // dataGridViewRegistry
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 23);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.RowTemplate.Height = 29;
-            this.dataGridView1.Size = new System.Drawing.Size(1192, 341);
-            this.dataGridView1.TabIndex = 0;
-            this.dataGridView1.ColumnHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_ColumnHeaderMouseDoubleClick);
+            this.dataGridViewRegistry.AllowUserToAddRows = false;
+            this.dataGridViewRegistry.AllowUserToDeleteRows = false;
+            this.dataGridViewRegistry.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewRegistry.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewRegistry.Location = new System.Drawing.Point(3, 23);
+            this.dataGridViewRegistry.Name = "dataGridViewRegistry";
+            this.dataGridViewRegistry.ReadOnly = true;
+            this.dataGridViewRegistry.RowHeadersVisible = false;
+            this.dataGridViewRegistry.RowHeadersWidth = 51;
+            this.dataGridViewRegistry.RowTemplate.Height = 29;
+            this.dataGridViewRegistry.Size = new System.Drawing.Size(1192, 341);
+            this.dataGridViewRegistry.TabIndex = 0;
+            this.dataGridViewRegistry.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewRegistry_CellClick);
+            this.dataGridViewRegistry.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewRegistry_CellDoubleClick);
+            this.dataGridViewRegistry.ColumnHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_ColumnHeaderMouseDoubleClick);
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.dataGridView1);
+            this.groupBox1.Controls.Add(this.dataGridViewRegistry);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(1198, 367);
@@ -70,7 +74,7 @@
             this.buttonAddRecord.Name = "buttonAddRecord";
             this.buttonAddRecord.Size = new System.Drawing.Size(101, 51);
             this.buttonAddRecord.TabIndex = 2;
-            this.buttonAddRecord.Text = "Добавить";
+            this.buttonAddRecord.Text = "Создать акт отлова";
             this.buttonAddRecord.UseVisualStyleBackColor = true;
             this.buttonAddRecord.Click += new System.EventHandler(this.buttonAddRecord_Click);
             // 
@@ -137,7 +141,7 @@
             this.Name = "Registry";
             this.Text = "Реестр отлова";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Registry_FormClosed);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRegistry)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -146,7 +150,7 @@
 
         #endregion
 
-        private DataGridView dataGridView1;
+        private DataGridView dataGridViewRegistry;
         private GroupBox groupBox1;
         private Button buttonAddRecord;
         private Button buttonRemoveRecord;

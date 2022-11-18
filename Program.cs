@@ -11,9 +11,6 @@ namespace CatchingRegistry
         static void Main()
         {
             ApplicationConfiguration.Initialize();
-
-            var db = new Context();
-      
             Application.Run(new Login());
         }
     }

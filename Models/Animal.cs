@@ -14,6 +14,5 @@ namespace CatchingRegistry.Models
         public string Gender { get; set; }
         public string Size { get; set; }
         public string Features { get; set; }
-        public string MicrochipNumber { get; set; }
     }
 }
